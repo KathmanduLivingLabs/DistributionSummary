@@ -26,12 +26,16 @@ dist_by_ward = distributions %>%
 distributions$TotalFromOna = rowSums(dist_by_ward, na.rm=T)
 
 distribution_summary = distributions %>% 
-    group_by(VDC) %>%
+    group_by(District, VDC) %>%
     summarize(Planned = mean(ToBeDistributed),
-              Distributed_According_to_Ona = sum(TotalFromOna))
+              Distributed = sum(TotalFromOna)) %>%
+    arrange(District, VDC)
 
 knitr::kable(distribution_summary)
 ```
 
+**Distributed** column is drawn from the Ona Distribution Reporting Form, adding up the distribution numbers from each ward.
+
 Report Generated on `r date()`. 
+
 Total Number of Distribution Reporting Records in [Ona](http://ona.io): `r nrow(distributions)`
