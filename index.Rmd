@@ -1,0 +1,37 @@
+---
+title: "Distibution Reporting Summary"
+output: html_document
+---
+
+
+
+```{r, echo=FALSE, message=FALSE}
+source("password.R") ## loads a variable called password
+library(RCurl)
+library(stringr)
+upass = str_c("mcnepal:", password)
+dataCSVstr = getURI("https://ona.io/api/v1/data/52600.csv",
+                    userpwd=upass, httpauth = 1L)
+distributions = read.csv(textConnection(dataCSVstr), na.strings="n/a")
+```
+
+```{r, echo=FALSE, message=FALSE}
+vdc_codes = read.csv("vdc_code_list.csv")
+
+distributions = merge(distributions, vdc_codes, by.x="distribution_information.vdc_name", by.y="VCODE", all.x=TRUE, all.y=FALSE)
+
+library(dplyr)
+dist_by_ward = distributions %>% 
+    select(contains("received"))
+distributions$TotalFromOna = rowSums(dist_by_ward, na.rm=T)
+
+distribution_summary = distributions %>% 
+    group_by(VDC) %>%
+    summarize(Planned = mean(ToBeDistributed),
+              Distributed_According_to_Ona = sum(TotalFromOna))
+
+knitr::kable(distribution_summary)
+```
+
+Report Generated on `r date()`. 
+Total Number of Distribution Reporting Records in [Ona](http://ona.io): `r nrow(distributions)`
