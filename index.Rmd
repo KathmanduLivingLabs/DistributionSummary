@@ -1,5 +1,5 @@
 ---
-title: "Distibution Reporting Summary"
+title: "Distribution Reporting Summary"
 output: html_document
 ---
 
