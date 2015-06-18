@@ -10,15 +10,17 @@ source("password.R") ## loads a variable called password
 library(RCurl)
 library(stringr)
 upass = str_c("mcnepal:", password)
-dataCSVstr = getURI("https://ona.io/api/v1/data/52600.csv",
-                    userpwd=upass, httpauth = 1L)
+dataCSVstr = getURI("http://ona.io/api/v1/data/52600.csv", userpwd=upass, httpauth = 1L)
 distributions = read.csv(textConnection(dataCSVstr), na.strings="n/a")
+dataCSVstr1 = getURI("http://ona.io/api/v1/data/52597.csv", userpwd=upass, httpauth = 1L)
+benis = read.csv(textConnection(dataCSVstr1), na.strings="n/a")
 ```
 
 ```{r, echo=FALSE, message=FALSE}
 vdc_codes = read.csv("vdc_code_list.csv")
 
-distributions = merge(distributions, vdc_codes, by.x="distribution_information.vdc_name", by.y="VCODE", all.x=TRUE, all.y=FALSE)
+distributions = merge(distributions, vdc_codes, by.x="distribution_information.vdc_name", by.y="VDC", all.x=TRUE, all.y=FALSE)
+distributions$VDC = distributions$distribution_information.vdc_name
 
 library(dplyr)
 dist_by_ward = distributions %>% 
@@ -31,7 +33,24 @@ distribution_summary = distributions %>%
               Distributed = sum(TotalFromOna)) %>%
     arrange(District, VDC)
 
+
+capFirst <- function(s) {
+    paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
+}
+distribution_district_aggregate = distribution_summary %>% group_by(District) %>% summarize(Planned = sum(Planned), Distributed = sum(Distributed))
+benis_summary = benis %>% group_by(district_name) %>% summarize(Registered = length(district_name))
+benis_summary$district_name = capFirst(benis_summary$district_name)
+benis_summary = merge(distribution_district_aggregate, benis_summary, by.x = "District", by.y = "district_name", all = TRUE)
+```
+
+###Distribution Summary
+```{r, echo=FALSE, message=FALSE}
 knitr::kable(distribution_summary)
+```
+
+###Beneficiary Registration and Distribution Summary
+```{r, echo=FALSE, message=FALSE}
+knitr::kable(benis_summary)
 ```
 
 **Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/52600), adding up the distribution numbers from each ward for all `r nrow(distributions)` records.
