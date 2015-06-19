@@ -29,16 +29,20 @@ distributions$TotalFromOna = rowSums(dist_by_ward, na.rm=T)
 
 distribution_summary = distributions %>% 
     group_by(District, VDC) %>%
-    summarize(Planned = mean(ToBeDistributed),
-              Distributed = sum(TotalFromOna)) %>%
+    summarize(Planned = mean(ToBeDistributed, na.rm=T),
+              Distributed = sum(TotalFromOna, na.rm=T)) %>%
     arrange(District, VDC)
 
 
 capFirst <- function(s) {
     paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
 }
-distribution_district_aggregate = distribution_summary %>% group_by(District) %>% summarize(Planned = sum(Planned), Distributed = sum(Distributed))
-benis_summary = benis %>% group_by(district_name) %>% summarize(Registered = length(district_name))
+distribution_district_aggregate = distribution_summary %>%
+    group_by(District) %>% 
+    summarize(Distributed = sum(Distributed, na.rm=T))
+benis_summary = benis %>% 
+    group_by(district_name) %>% 
+    summarize(Registered = n())
 benis_summary$district_name = capFirst(benis_summary$district_name)
 benis_summary = merge(distribution_district_aggregate, benis_summary, by.x = "District", by.y = "district_name", all = TRUE)
 ```
@@ -53,6 +57,8 @@ knitr::kable(distribution_summary)
 knitr::kable(benis_summary)
 ```
 
-**Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/52600), adding up the distribution numbers from each ward for all `r nrow(distributions)` records.
+**Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/52600), from `r nrow(distributions)` records.
+
+**Registered** column is drawn from the [Beneficiary Photo Registration Form](https://beta.ona.io/mcnepal/4384/52597), from `r nrow(benis)` records.
 
 Report Generated on `r date()`. 
