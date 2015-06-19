@@ -44,7 +44,7 @@ benis_summary = benis %>%
     group_by(district_name) %>% 
     summarize(Registered = n())
 benis_summary$district_name = capFirst(benis_summary$district_name)
-benis_summary = merge(distribution_district_aggregate, benis_summary, by.x = "District", by.y = "district_name", all = TRUE)
+benis_summary = merge(benis_summary, distribution_district_aggregate,  by.y = "District", by.x = "district_name", all = TRUE)
 ```
 
 ###Distribution Summary
