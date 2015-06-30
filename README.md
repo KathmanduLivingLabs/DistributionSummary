@@ -2,5 +2,5 @@
 
 ## To re-compile:
 ```
->> make knit
+>> make
 ```
