@@ -10,56 +10,72 @@ source("password.R") ## loads a variable called password
 library(RCurl)
 library(stringr)
 upass = str_c("mcnepal:", password)
-dataCSVstr = getURI("http://ona.io/api/v1/data/52600.csv", userpwd=upass, httpauth = 1L)
-distributions = read.csv(textConnection(dataCSVstr), na.strings="n/a")
-dataCSVstr1 = getURI("http://ona.io/api/v1/data/52597.csv", userpwd=upass, httpauth = 1L)
-benis = read.csv(textConnection(dataCSVstr1), na.strings="n/a")
+dataCSVDonor = getURI("http://ona.io/api/v1/data/65052.csv", userpwd=upass, httpauth = 1L)
+donors = read.csv(textConnection(dataCSVDonor), na.strings="n/a")
+dataCSVDistributions = getURI("http://ona.io/api/v1/data/65043.csv", userpwd=upass, httpauth = 1L)
+distributions = read.csv(textConnection(dataCSVDistributions), na.strings="n/a")
+previous_distributions = read.csv("before_july_9.csv")
+VDC_List = read.csv("vdc_code_list.csv")
 ```
 
-```{r, echo=FALSE, message=FALSE}
-vdc_codes = read.csv("vdc_code_list.csv")
-
-distributions = merge(distributions, vdc_codes, by.x="distribution_information.vdc_name", by.y="VDC", all.x=TRUE, all.y=FALSE)
-distributions$VDC = distributions$distribution_information.vdc_name
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(dplyr)
-dist_by_ward = distributions %>% 
-    select(contains("received"))
-distributions$TotalFromOna = rowSums(dist_by_ward, na.rm=T)
 
-distribution_summary = distributions %>% 
-    group_by(District, VDC) %>%
-    summarize(Planned = mean(ToBeDistributed, na.rm=T),
-              Distributed = sum(TotalFromOna, na.rm=T)) %>%
-    arrange(District, VDC)
+donors_NFI = filter(donors, distribution_information.kits_or_cash == 1)
 
+donors_cash = filter(donors, distribution_information.kits_or_cash == 2)
 
-capFirst <- function(s) {
-    paste(toupper(substring(s, 1, 1)), substring(s, 2), sep = "")
-}
-distribution_district_aggregate = distribution_summary %>%
-    group_by(District) %>% 
-    summarize(Distributed = sum(Distributed, na.rm=T))
-benis_summary = benis %>% 
-    group_by(district_name) %>% 
-    summarize(Registered = n())
-benis_summary$district_name = capFirst(benis_summary$district_name)
-benis_summary = merge(benis_summary, distribution_district_aggregate,  by.y = "District", by.x = "district_name", all = TRUE)
-benis_summary = rename (benis_summary , District = district_name)
+donors_summary_NFI = donors_NFI %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(PlannedNFI = sum(distribution_information.number_of_kits))%>%
+  arrange(distribution_information.vdc_name)
+
+donors_summary_cash = donors_cash %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(PlannedCash = sum(distribution_information.cash_recipients))%>%
+  arrange(distribution_information.vdc_name)
+
+donors_summary = merge(donors_summary_NFI, donors_summary_cash, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distributions_NFI = filter(distributions, distribution_information.kits_or_cash == 1)
+
+distributions_cash = filter(distributions, distribution_information.kits_or_cash == 2)
+
+distributions_summary_NFI = distributions_NFI %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(DistributedNFI = sum(review.total_distribution))%>%
+  arrange(distribution_information.vdc_name)
+
+distributions_summary_cash = distributions_cash %>% 
+  group_by( distribution_information.vdc_name)%>%
+  summarize(DistributedCash = sum(review.total_distribution))%>%
+  arrange(distribution_information.vdc_name)
+
+distribution_summary = merge(distributions_summary_NFI, distributions_summary_cash, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distribution_summary = merge(donors_summary, distribution_summary, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distribution_summary = merge(distribution_summary, previous_distributions, by.x = "distribution_information.vdc_name", by.y = "VDC", all=TRUE)
+
+distribution_summary [is.na(distribution_summary)] = 0
+
+distribution_summary$DistributedNFI = (distribution_summary$DistributedNFI + distribution_summary$Kits)
+distribution_summary$DistributedCash = (distribution_summary$DistributedCash + distribution_summary$Cash)
+distribution_summary$PlannedNFI = (distribution_summary$PlannedNFI + distribution_summary$Kits)
+distribution_summary$PlannedCash = (distribution_summary$PlannedCash + distribution_summary$Cash)
+
+distribution_summary = merge(distribution_summary, VDC_List, by.x = "distribution_information.vdc_name", by.y = "VDC", all.y = FALSE)
+
+distribution_summary = distribution_summary [,c("District.y","distribution_information.vdc_name","PlannedNFI","DistributedNFI","PlannedCash","DistributedCash","Donor.y")] %>% arrange(District.y)
 ```
 
 ###Distribution Summary
 ```{r, echo=FALSE, message=FALSE}
-knitr::kable(distribution_summary)
-```
-
-###Beneficiary Registration and Distribution Summary
-```{r, echo=FALSE, message=FALSE}
-knitr::kable(benis_summary)
+knitr::kable(distribution_summary, col.names = c ("District","VDC","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed", "Donor"))
 ```
 
 **Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/52600), from `r nrow(distributions)` records.
 
-**Registered** column is drawn from the [Beneficiary Photo Registration Form](https://beta.ona.io/mcnepal/4384/52597), from `r nrow(benis)` records.
-
 Report Generated on `r date()`. 
+
