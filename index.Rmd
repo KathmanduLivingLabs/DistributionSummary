@@ -67,13 +67,18 @@ distribution_summary$PlannedCash = (distribution_summary$PlannedCash + distribut
 
 distribution_summary = merge(distribution_summary, VDC_List, by.x = "distribution_information.vdc_name", by.y = "VDC", all.y = FALSE)
 
-distribution_summary = distribution_summary [,c("District.y","distribution_information.vdc_name","PlannedNFI","DistributedNFI","PlannedCash","DistributedCash","Donor.y")] %>% arrange(District.y)
+distribution_summary = distribution_summary [,c("District.y","distribution_information.vdc_name","Donor.y","PlannedNFI","DistributedNFI","PlannedCash","DistributedCash")] %>% arrange(District.y)
+
+distribution_summary[,c(1,2)] <- sapply(distribution_summary[,c(1,2)],as.character)
+
 write.csv(distribution_summary, file = "distribution_summary.csv", sep = ",", col.names = TRUE)
+
+distribution_summary = rbind(distribution_summary, c ("Total","","",sum(distribution_summary$PlannedNFI),sum(distribution_summary$DistributedNFI),sum(distribution_summary$PlannedCash),sum(distribution_summary$DistributedCash)))
 ```
 
 ###Distribution Summary
 ```{r, echo=FALSE, message=FALSE}
-knitr::kable(distribution_summary, col.names = c ("District","VDC","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed", "Donor"))
+knitr::kable(distribution_summary, col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
 ```
 
 **Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/52600), from `r nrow(distributions)` records.
