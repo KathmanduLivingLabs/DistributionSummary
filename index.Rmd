@@ -65,7 +65,7 @@ distribution_summary$DistributedCash = (distribution_summary$DistributedCash + d
 distribution_summary$PlannedNFI = (distribution_summary$PlannedNFI + distribution_summary$Kits)
 distribution_summary$PlannedCash = (distribution_summary$PlannedCash + distribution_summary$Cash)
 
-distribution_summary = merge(distribution_summary, VDC_List, by.x = "distribution_information.vdc_name", by.y = "VDC", all.y = FALSE)
+distribution_summary = merge(distribution_summary, VDC_List, by.x = "distribution_information.vdc_name", by.y = "VDC",all.x =TRUE)
 
 distribution_summary = distribution_summary [,c("District.y","distribution_information.vdc_name","Donor.y","PlannedNFI","DistributedNFI","PlannedCash","DistributedCash")] %>% arrange(District.y)
 
@@ -81,7 +81,49 @@ distribution_summary = rbind(distribution_summary, c ("Total","","",sum(distribu
 knitr::kable(distribution_summary, col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
 ```
 
-**Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/52600), from `r nrow(distributions)` records.
+**Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/65043), from `r nrow(distributions)` records.
+**Allocated** column is drawn from the [Distribution Donor Form](https://beta.ona.io/mcnepal/4384/65052), from `r nrow(donors)` records.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+distributions_dfid_NFI = filter(donors, donors$distribution_information.distribution_donor == "dfid") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_DFID = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_dfid_cash = filter(donors, donors$distribution_information.distribution_donor == "dfid") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_DFID = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+distributions_cfpa_NFI = filter(donors, donors$distribution_information.distribution_donor == "cfpa")%>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_CFPA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_cfpa_cash = filter(donors, donors$distribution_information.distribution_donor == "cfpa") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_CFPA = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+distributions_ofda_NFI = filter(donors, donors$distribution_information.distribution_donor == "ofda")%>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_OFDA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_ofda_cash = filter(donors, donors$distribution_information.distribution_donor == "ofda") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_OFDA = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+distributions_private_NFI = filter(donors, donors$distribution_information.distribution_donor == "private")%>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_Private = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_private_cash = filter(donors, donors$distribution_information.distribution_donor == "private") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_Private = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+donor_vdc_summary = Reduce(function(...) merge(...,by="distribution_information.vdc_name" ,all=T), list(distributions_private_cash, distributions_private_NFI, distributions_ofda_cash, distributions_ofda_NFI, distributions_cfpa_cash,distributions_cfpa_NFI,distributions_dfid_cash, distributions_dfid_NFI))
+
+donor_vdc_summary$NFI_sum = rowSums(donor_vdc_summary[, c(2,4,6,8)], na.rm = TRUE )
+
+#donor_vdc_summary = merge(donor_vdc_summary, previous_distributions, by.x = "distribution_information.vdc_name", by.y = "VDC", all = TRUE)
+
+```
 
 Report Generated on `r date()`. 
 
