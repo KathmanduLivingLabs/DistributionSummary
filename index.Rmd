@@ -167,6 +167,7 @@ donor_table[,-1] <-round(donor_table[,-1],0)
 donor_table$total = donor_table$donor_table_cfpa + donor_table$donor_table_dfid + donor_table$donor_table_ofda + donor_table$donor_table_private
 
 #donor_vdc_summary = merge(donor_vdc_summary, previous_distributions, by.x = "distribution_information.vdc_name", by.y = "VDC", all = TRUE)
+write.csv(donor_table, file = "donor_table.csv", sep = ",", col.names = TRUE)
 
 ```
 
