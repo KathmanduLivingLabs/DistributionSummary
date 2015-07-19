@@ -29,7 +29,7 @@ echo "new Dist report = $newDistRep"
 newDistDon=`node getOldDistDon.js`
 echo "new Dist Donor = $newDistDon"
 
-if [[ "$oldDistRep" == "$newDistRep" || "$oldDistDon" == "$newDistDon" ]]
+if [[ "$oldDistRep" == "$newDistRep" && "$oldDistDon" == "$newDistDon" ]]
 then
 	echo "Nothing to update"
 else
