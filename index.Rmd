@@ -74,6 +74,9 @@ distribution_summary[,c(1,2)] <- sapply(distribution_summary[,c(1,2)],as.charact
 write.csv(distribution_summary, file = "distribution_summary.csv", sep = ",", col.names = TRUE)
 
 distribution_summary = rbind(distribution_summary, c ("Total","","",sum(distribution_summary$PlannedNFI),sum(distribution_summary$DistributedNFI),sum(distribution_summary$PlannedCash),sum(distribution_summary$DistributedCash)))
+
+distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) prettyNum(x,big.interval = 3L , big.mark=','))
+
 ```
 
 ###Distribution Summary
@@ -168,6 +171,8 @@ donor_table$total = donor_table$donor_table_cfpa + donor_table$donor_table_dfid 
 
 #donor_vdc_summary = merge(donor_vdc_summary, previous_distributions, by.x = "distribution_information.vdc_name", by.y = "VDC", all = TRUE)
 write.csv(donor_table, file = "donor_table.csv", sep = ",", col.names = TRUE)
+
+donor_table[,2:6] = apply(donor_table[,2:6], 2, function(x) prettyNum(x,big.interval = 3L , big.mark=','))
 
 ```
 
