@@ -79,6 +79,43 @@ distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) pr
 
 ```
 
+
+
+
+
+
+
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Your page title here :)</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<!--  <link rel="icon" type="image/png" href="images/favicon.png">
+-->
+</head>
+<body>
+
 ###Distribution Summary
 ```{r, echo=FALSE, message=FALSE}
 knitr::kable(distribution_summary, col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
@@ -183,3 +220,5 @@ knitr::kable(donor_table, col.names = c ("","CFPA","DFID","OFDA","Private Funds"
 
 Report Generated on `r date()`. 
 
+</body>
+</html>
