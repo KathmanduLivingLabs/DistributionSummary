@@ -114,7 +114,47 @@ distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) pr
 <!--  <link rel="icon" type="image/png" href="images/favicon.png">
 -->
 </head>
-<body>
+<body ng-app="UNESCODistributionReporting">
+
+<div ng-controller="mainCtrl">
+<div ng-show="tab">
+<div name="#button_div">
+<a class="button button-primary" ng-click="show(false)">Go Back</a>
+</div>
+<div>
+<center>
+<canvas id="cfpaBarChart" width="600" height="400"></canvas>
+<h5>CFPA Chart</h5>
+</center>
+</div>
+<div>
+<center>
+<canvas id="dfidBarChart" width="600" height="400"></canvas>
+<h5>DFID Chart</h5>
+</center>
+</div>
+<div>
+<center>
+<canvas id="ofdaBarChart" width="600" height="400"></canvas>
+<h5>OFDA Chart</h5>
+</center>
+</div>
+<div>
+<center>
+<canvas id="privateBarChart" width="600" height="400"></canvas>
+<h5>Private Funds Chart
+</center>
+</div>
+
+<div>
+<a class="button button-primary" ng-click="show(false)">Go Back</a>
+</div>
+
+</div>
+
+
+<div ng-hide="tab">
+
 
 ###Distribution Summary
 ```{r, echo=FALSE, message=FALSE}
@@ -213,12 +253,35 @@ donor_table[,2:6] = apply(donor_table[,2:6], 2, function(x) prettyNum(x,big.inte
 
 ```
 
-###Donor Summary
+
+
+<div id="donor_div" class="container">
+<div class="row">
+<div class="six columns"><h3>Donor Summary</h3></div>
+<div class="six columns"><a class="button button-primary" href="#button_div" ng-click="show(true)">View Donors Chart</a></div>
+</div>
+
+
+
+
 ```{r, echo=FALSE, message=FALSE}
 knitr::kable(donor_table, col.names = c ("","CFPA","DFID","OFDA","Private Funds","Total"))
 ```
 
+
+</div>
+
+
 Report Generated on `r date()`. 
 
+
+</div>
+</div>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="Chart.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="aggBarChart.js"></script>
 </body>
 </html>
