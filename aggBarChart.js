@@ -12,18 +12,14 @@ firstRow[1] = table.rows[1].cells;
 firstRow[2] = table.rows[2].cells;
 firstRow[3] = table.rows[3].cells;
 firstRow[4] = table.rows[4].cells;
-firstRow[5] = table.rows[5].cells;
-firstRow[6] = table.rows[6].cells;
 
 var cfpaDonorData = [];
 var dfidDonorData = [];
 var ofdaDonorData = [];
 var privateDonorData = [];
-var totalNFIPlannedData = [];
-var totalCashPlannedData = [];
-var donorData = [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12]];
-for(var i = 1; i < 6; i++) {
-	for(var j = 0; j < 6; j++) {
+var donorData = [[1,2],[3,4],[5,6],[7,8]];
+for(var i = 1; i < 4; i++) {
+	for(var j = 0; j < 4; j++) {
 		donorData[j][i - 1] = firstRow[i][j + 1].innerHTML.replace(/\,/g,'');
 		donorData[j][i - 1] = Number(donorData[j][i - 1]);
 	}
@@ -38,15 +34,9 @@ donorData[2][3] = Number(donorData[2][3]);
 donorData[3][3] = firstRow[4][4].innerHTML.replace(/\,/g, '');
 donorData[3][3] = Number(donorData[3][3]);
 
-donorData[4][3] = firstRow[4][5].innerHTML.replace(/\,/g, '');
-donorData[4][3] = Number(donorData[4][3]);
-
-donorData[5][3] = firstRow[4][6].innerHTML.replace(/\,/g, '');
-donorData[5][3] = Number(donorData[5][3]);
 
 var data = [];
 for(var i = 0; i < 4; i++) {
-	for(var j = 0; j < 6; j++) {
 	data[i] = {
 		labels: ["Cash Allocated", "Cash Distributed", "NFI Allocated", "NFI Distributed", "Total NFI Planned", "Total Cash Planned"],
 		datasets: [
@@ -56,11 +46,11 @@ for(var i = 0; i < 4; i++) {
 				strokeColor: "rgba(151,187,205,0.8)",
 				highlightFill: "rgba(151,187,205,0.75)",
 				highlightStroke: "rgba(151,187,205,1)",
-				data: donorData[j]
+				data: donorData[i]
 			}
 		]
 	};
-}}
+}
 
 
 var options = {
