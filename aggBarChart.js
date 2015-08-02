@@ -38,7 +38,7 @@ donorData[3][3] = Number(donorData[3][3]);
 var data = [];
 for(var i = 0; i < 4; i++) {
 	data[i] = {
-		labels: ["Cash Allocated", "Cash Distributed", "NFI Allocated", "NFI Distributed", "Total NFI Planned", "Total Cash Planned"],
+		labels: ["Cash Allocated", "Cash Distributed", "NFI Allocated", "NFI Distributed"],
 		datasets: [
 			{
 				label: "Donor Dataset",
