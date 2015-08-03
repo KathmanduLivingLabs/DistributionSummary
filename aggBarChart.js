@@ -12,33 +12,38 @@ firstRow[1] = table.rows[1].cells;
 firstRow[2] = table.rows[2].cells;
 firstRow[3] = table.rows[3].cells;
 firstRow[4] = table.rows[4].cells;
+console.log(table.rows[5].cells);
+console.log(table.rows[6].cells);
+firstRow[5] = table.rows[5].cells;
+firstRow[6] = table.rows[6].cells;
 
 var cfpaDonorData = [];
 var dfidDonorData = [];
 var ofdaDonorData = [];
 var privateDonorData = [];
-var donorData = [[1,2],[3,4],[5,6],[7,8]];
-for(var i = 1; i < 4; i++) {
+var donorData = [[1,2],[3,4],[5,6],[7,8], [9,10], [11,12]];
+for(var i = 1; i < 6; i++) {
 	for(var j = 0; j < 4; j++) {
 		donorData[j][i - 1] = firstRow[i][j + 1].innerHTML.replace(/\,/g,'');
 		donorData[j][i - 1] = Number(donorData[j][i - 1]);
 	}
 }
+console.log(donorData);
 
-donorData[0][3] = firstRow[4][1].innerHTML.replace(/\,/g, '');
-donorData[0][3] = Number(donorData[0][3]);
-donorData[1][3] = firstRow[4][2].innerHTML.replace(/\,/g, '');
-donorData[1][3] = Number(donorData[1][3]);
-donorData[2][3] = firstRow[4][3].innerHTML.replace(/\,/g, '');
-donorData[2][3] = Number(donorData[2][3]);
-donorData[3][3] = firstRow[4][4].innerHTML.replace(/\,/g, '');
-donorData[3][3] = Number(donorData[3][3]);
+donorData[0][5] = firstRow[6][1].innerHTML.replace(/\,/g, '');
+donorData[0][5] = Number(donorData[0][5]);
+donorData[1][5] = firstRow[6][2].innerHTML.replace(/\,/g, '');
+donorData[1][5] = Number(donorData[1][5]);
+donorData[2][5] = firstRow[6][3].innerHTML.replace(/\,/g, '');
+donorData[2][5] = Number(donorData[2][5]);
+donorData[3][5] = firstRow[6][4].innerHTML.replace(/\,/g, '');
+donorData[3][5] = Number(donorData[3][5]);
 
 
 var data = [];
 for(var i = 0; i < 4; i++) {
 	data[i] = {
-		labels: ["Cash Allocated", "Cash Distributed", "NFI Allocated", "NFI Distributed"],
+		labels: ["Cash Allocated", "Cash Distributed", "NFI Allocated", "NFI Distributed", "Total NFI Planned", "Total Cash Planned"],
 		datasets: [
 			{
 				label: "Donor Dataset",

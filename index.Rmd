@@ -115,25 +115,25 @@ distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) pr
 </div>
 <div>
 <center>
-<canvas id="cfpaBarChart" width="600" height="400"></canvas>
+<canvas id="cfpaBarChart" width="700" height="400"></canvas>
 <h5>CFPA Chart</h5>
 </center>
 </div>
 <div>
 <center>
-<canvas id="dfidBarChart" width="600" height="400"></canvas>
+<canvas id="dfidBarChart" width="700" height="400"></canvas>
 <h5>DFID Chart</h5>
 </center>
 </div>
 <div>
 <center>
-<canvas id="ofdaBarChart" width="600" height="400"></canvas>
+<canvas id="ofdaBarChart" width="700" height="400"></canvas>
 <h5>OFDA Chart</h5>
 </center>
 </div>
 <div>
 <center>
-<canvas id="privateBarChart" width="600" height="400"></canvas>
+<canvas id="privateBarChart" width="700" height="400"></canvas>
 <h5>Private Funds Chart
 </center>
 </div>
