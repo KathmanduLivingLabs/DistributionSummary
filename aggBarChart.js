@@ -12,8 +12,6 @@ firstRow[1] = table.rows[1].cells;
 firstRow[2] = table.rows[2].cells;
 firstRow[3] = table.rows[3].cells;
 firstRow[4] = table.rows[4].cells;
-console.log(table.rows[5].cells);
-console.log(table.rows[6].cells);
 firstRow[5] = table.rows[5].cells;
 firstRow[6] = table.rows[6].cells;
 
@@ -28,7 +26,6 @@ for(var i = 1; i < 6; i++) {
 		donorData[j][i - 1] = Number(donorData[j][i - 1]);
 	}
 }
-console.log(donorData);
 
 donorData[0][5] = firstRow[6][1].innerHTML.replace(/\,/g, '');
 donorData[0][5] = Number(donorData[0][5]);
