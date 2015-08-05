@@ -1,4 +1,36 @@
 
+
+=============================================================
+
+Wed Aug  5 04:40:01 EDT 2015
+=================================================================
+Entered in to DistributionSummary
+Old Dist = 
+Old Donor = 
+new Dist report = 
+new Dist Donor = 
+Nothing to update
+
+
+=============================================================
+
+Wed Aug  5 04:42:08 EDT 2015
+=================================================================
+Entered in to DistributionSummary
+Old Dist = 2015-08-04T01:45:35.630Z
+Old Donor = 2015-07-31T05:41:00.588Z
+new Dist report = 2015-07-19T11:52:58.731Z
+new Dist Donor = 2015-07-19T11:53:48.145Z
+
+=========================
+
+Already up-to-date.
+
+=========================
+
+
+
+
 R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -26,5 +58,55 @@ label: unnamed-chunk-1 (with options)
 List of 2
  $ echo   : logi FALSE
  $ message: logi FALSE
+
+  |                                                                         |..................                                               |  27%
+  ordinary text without R code
+
+  |                                                                         |........................                                         |  36%
+label: unnamed-chunk-2 (with options) 
+List of 3
+ $ echo   : logi FALSE
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+  |                                                                         |..............................                                   |  45%
+  ordinary text without R code
+
+  |                                                                         |...................................                              |  55%
+label: unnamed-chunk-3 (with options) 
+List of 2
+ $ echo   : logi FALSE
+ $ message: logi FALSE
+
+  |                                                                         |.........................................                        |  64%
+   inline R code fragments
+
+  |                                                                         |...............................................                  |  73%
+label: unnamed-chunk-4 (with options) 
+List of 3
+ $ echo   : logi FALSE
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+  |                                                                         |.....................................................            |  82%
+  ordinary text without R code
+
+  |                                                                         |...........................................................      |  91%
+label: unnamed-chunk-5 (with options) 
+List of 2
+ $ echo   : logi FALSE
+ $ message: logi FALSE
+
+  |                                                                         |.................................................................| 100%
+   inline R code fragments
+
+
+/usr/bin/pandoc index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /usr/local/lib/R/site-library/rmarkdown/rmd/h/default.html --variable 'theme:bootstrap' --include-in-header /tmp/Rtmp8E5fhn/rmarkdown-str3dcc7e7bf195.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/usr/local/lib/R/site-library/rmarkdown/rmd/h/highlight 
+> 
+
+
+
+=========================
+
 
 
