@@ -18,14 +18,14 @@ echo "Old Donor = $oldDistDon"
 echo "Old Donor = $oldDistDon">>log.txt
 
 
-curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/66181 >formDetails.json
-curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/65829 >formDetails_donor.json
+#curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/66181 >formDetails.json
+#curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/65829 >formDetails_donor.json
 
 # get new form Distribution Reporting
-#curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65043 >formDetails.json
+curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65043 >formDetails.json
 
 # get new form Distribution Donor
-#curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65052 >formDetails_donor.json
+curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65052 >formDetails_donor.json
 
 # get new submission of distribution reporting
 newDistRep=`node getLastSubmission.js`

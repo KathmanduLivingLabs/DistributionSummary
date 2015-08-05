@@ -2,25 +2,13 @@
 
 =============================================================
 
-Wed Aug  5 04:40:01 EDT 2015
+Wed Aug  5 04:44:02 EDT 2015
 =================================================================
 Entered in to DistributionSummary
-Old Dist = 
-Old Donor = 
-new Dist report = 
-new Dist Donor = 
-Nothing to update
-
-
-=============================================================
-
-Wed Aug  5 04:42:08 EDT 2015
-=================================================================
-Entered in to DistributionSummary
-Old Dist = 2015-08-04T01:45:35.630Z
-Old Donor = 2015-07-31T05:41:00.588Z
-new Dist report = 2015-07-19T11:52:58.731Z
-new Dist Donor = 2015-07-19T11:53:48.145Z
+Old Dist = 2015-07-19T11:52:58.731Z
+Old Donor = 2015-07-19T11:53:48.145Z
+new Dist report = 2015-08-04T01:45:35.630Z
+new Dist Donor = 2015-07-31T05:41:00.588Z
 
 =========================
 
@@ -101,7 +89,7 @@ List of 2
    inline R code fragments
 
 
-/usr/bin/pandoc index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /usr/local/lib/R/site-library/rmarkdown/rmd/h/default.html --variable 'theme:bootstrap' --include-in-header /tmp/Rtmp8E5fhn/rmarkdown-str3dcc7e7bf195.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/usr/local/lib/R/site-library/rmarkdown/rmd/h/highlight 
+/usr/bin/pandoc index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /usr/local/lib/R/site-library/rmarkdown/rmd/h/default.html --variable 'theme:bootstrap' --include-in-header /tmp/RtmpPCEaKj/rmarkdown-str3e691001fe90.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/usr/local/lib/R/site-library/rmarkdown/rmd/h/highlight 
 > 
 
 
