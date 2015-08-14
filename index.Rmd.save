@@ -1,0 +1,280 @@
+---
+title: "Distribution Reporting Summary"
+output: html_document
+---
+
+
+
+```{r, echo=FALSE, message=FALSE}
+source("password.R") ## loads a variable called password
+library(RCurl)
+library(stringr)
+upass = str_c("mcnepal:", password)
+dataCSVDonor = getURI("http://ona.io/api/v1/data/65052.csv", userpwd=upass, httpauth = 1L)
+donors = read.csv(textConnection(dataCSVDonor), na.strings="n/a")
+dataCSVDistributions = getURI("http://ona.io/api/v1/data/65043.csv", userpwd=upass, httpauth = 1L)
+distributions = read.csv(textConnection(dataCSVDistributions), na.strings="n/a")
+previous_distributions = read.csv("before_july_9.csv")
+VDC_List = read.csv("vdc_code_list.csv")
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(dplyr)
+
+donors_NFI = filter(donors, distribution_information.kits_or_cash == 1)
+
+donors_cash = filter(donors, distribution_information.kits_or_cash == 2)
+
+donors_summary_NFI = donors_NFI %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(PlannedNFI = sum(distribution_information.number_of_kits))%>%
+  arrange(distribution_information.vdc_name)
+
+donors_summary_cash = donors_cash %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(PlannedCash = sum(distribution_information.cash_recipients))%>%
+  arrange(distribution_information.vdc_name)
+
+donors_summary = merge(donors_summary_NFI, donors_summary_cash, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distributions_NFI = filter(distributions, distribution_information.kits_or_cash == 1)
+
+distributions_cash = filter(distributions, distribution_information.kits_or_cash == 2)
+
+distributions_summary_NFI = distributions_NFI %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(DistributedNFI = sum(review.total_distribution))%>%
+  arrange(distribution_information.vdc_name)
+
+distributions_summary_cash = distributions_cash %>% 
+  group_by( distribution_information.vdc_name)%>%
+  summarize(DistributedCash = sum(review.total_distribution))%>%
+  arrange(distribution_information.vdc_name)
+
+distribution_summary = merge(distributions_summary_NFI, distributions_summary_cash, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distribution_summary = merge(donors_summary, distribution_summary, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distribution_summary = merge(distribution_summary, previous_distributions, by.x = "distribution_information.vdc_name", by.y = "VDC", all=TRUE)
+
+distribution_summary [is.na(distribution_summary)] = 0
+
+distribution_summary$DistributedNFI = (distribution_summary$DistributedNFI + distribution_summary$Kits)
+distribution_summary$DistributedCash = (distribution_summary$DistributedCash + distribution_summary$Cash)
+distribution_summary$PlannedNFI = (distribution_summary$PlannedNFI + distribution_summary$Kits)
+distribution_summary$PlannedCash = (distribution_summary$PlannedCash + distribution_summary$Cash)
+
+distribution_summary = merge(distribution_summary, VDC_List, by.x = "distribution_information.vdc_name", by.y = "VDC",all.x =TRUE)
+
+distribution_summary = distribution_summary [,c("District.y","distribution_information.vdc_name","Donor.y","PlannedNFI","DistributedNFI","PlannedCash","DistributedCash")] %>% arrange(District.y)
+
+distribution_summary[,c(1,2)] <- sapply(distribution_summary[,c(1,2)],as.character)
+
+write.csv(distribution_summary, file = "distribution_summary.csv", sep = ",", col.names = TRUE)
+
+distribution_summary = rbind(distribution_summary, c ("Total","","",sum(distribution_summary$PlannedNFI),sum(distribution_summary$DistributedNFI),sum(distribution_summary$PlannedCash),sum(distribution_summary$DistributedCash)))
+
+distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) prettyNum(x,big.interval = 3L , big.mark=','))
+
+```
+
+
+```{r, echo=FALSE, message=FALSE}
+
+distributions_summary_NFI_detailed = distributions_NFI %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(DistributedNFI = sum(review.total_distribution),Ward1= sum(II.II1.beneficiary_received1, na.rm = T),Ward2 = sum(II.II2.beneficiary_received2, na.rm = T),Ward3= sum(II.II3.beneficiary_received3, na.rm = T),Ward4= sum(II.II4.beneficiary_received4, na.rm = T),Ward5= sum(II.II5.beneficiary_received5, na.rm = T),Ward6= sum(II.II6.beneficiary_received6, na.rm = T),Ward7= sum(II.II7.beneficiary_received7, na.rm = T),Ward8= sum(II.II8.beneficiary_received8, na.rm = T),Ward9= sum(II.II9.beneficiary_received9, na.rm = T))%>%
+  arrange(distribution_information.vdc_name)
+
+distributions_summary_cash_detailed = distributions_cash %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(DistributedCash = sum(review.total_distribution),Ward1= sum(II.II1.beneficiary_received1, na.rm = T),Ward2 = sum(II.II2.beneficiary_received2, na.rm = T),Ward3= sum(II.II3.beneficiary_received3, na.rm = T),Ward4= sum(II.II4.beneficiary_received4, na.rm = T),Ward5= sum(II.II5.beneficiary_received5, na.rm = T),Ward6= sum(II.II6.beneficiary_received6, na.rm = T),Ward7= sum(II.II7.beneficiary_received7, na.rm = T),Ward8= sum(II.II8.beneficiary_received8, na.rm = T),Ward9= sum(II.II9.beneficiary_received9, na.rm = T))%>%
+  arrange(distribution_information.vdc_name)
+
+distribution_summary_detailed = merge(distributions_summary_NFI_detailed, distributions_summary_cash_detailed, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distribution_summary_detailed [is.na(distribution_summary_detailed)] = 0
+
+write(toJSON(distribution_summary, preety = T),file = "distribution_summary_detailed.json")
+
+```
+
+
+
+
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs -->
+  <meta charset="utf-8">
+  <title>Your page title here :)</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT -->
+  <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/chartist.min.css"/>
+
+</head>
+<body ng-app="UNESCODistributionReporting">
+
+<div ng-controller="mainCtrl">
+<div>
+
+
+###Distribution Summary
+```{r, echo=FALSE, message=FALSE}
+knitr::kable(distribution_summary, col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
+```
+
+**Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/65043), from `r nrow(distributions)` records.
+**Allocated** column is drawn from the [Distribution Donor Form](https://beta.ona.io/mcnepal/4384/65052), from `r nrow(donors)` records.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+distributions_dfid_NFI = filter(donors, donors$distribution_information.distribution_donor == "dfid") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_DFID = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_dfid_cash = filter(donors, donors$distribution_information.distribution_donor == "dfid") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_DFID = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+distributions_cfpa_NFI = filter(donors, donors$distribution_information.distribution_donor == "cfpa")%>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_CFPA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_cfpa_cash = filter(donors, donors$distribution_information.distribution_donor == "cfpa") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_CFPA = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+distributions_ofda_NFI = filter(donors, donors$distribution_information.distribution_donor == "ofda")%>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_OFDA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_ofda_cash = filter(donors, donors$distribution_information.distribution_donor == "ofda") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_OFDA = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+distributions_private_NFI = filter(donors, donors$distribution_information.distribution_donor == "private")%>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedNFI_Private = sum(distribution_information.number_of_kits, na.rm = TRUE))
+
+distributions_private_cash = filter(donors, donors$distribution_information.distribution_donor == "private") %>%
+  group_by(distribution_information.vdc_name) %>% 
+  summarize(PlannedCash_Private = sum(distribution_information.cash_recipients, na.rm = TRUE))
+
+donor_vdc_summary = Reduce(function(...) merge(...,by="distribution_information.vdc_name" ,all=T), list(distributions_private_cash, distributions_private_NFI, distributions_ofda_cash, distributions_ofda_NFI, distributions_cfpa_cash,distributions_cfpa_NFI,distributions_dfid_cash, distributions_dfid_NFI))
+
+donor_vdc_summary$NFI_sum = rowSums(donor_vdc_summary[, c(3,5,7,9)], na.rm = TRUE)
+
+donor_vdc_summary$cash_sum = rowSums(donor_vdc_summary[, c(2,4,6,8)], na.rm = TRUE)
+
+donor_vdc_summary$dfid_nfi_multiplier = donor_vdc_summary$PlannedNFI_DFID/donor_vdc_summary$NFI_sum
+donor_vdc_summary$ofda_nfi_multiplier = donor_vdc_summary$PlannedNFI_OFDA/donor_vdc_summary$NFI_sum
+donor_vdc_summary$cfpa_nfi_multiplier = donor_vdc_summary$PlannedNFI_CFPA/donor_vdc_summary$NFI_sum
+donor_vdc_summary$private_nfi_multiplier = donor_vdc_summary$PlannedNFI_Private/donor_vdc_summary$NFI_sum
+
+donor_vdc_summary$dfid_cash_multiplier = donor_vdc_summary$PlannedCash_DFID/donor_vdc_summary$cash_sum
+donor_vdc_summary$ofda_cash_multiplier = donor_vdc_summary$PlannedCash_OFDA/donor_vdc_summary$cash_sum
+donor_vdc_summary$cfpa_cash_multiplier = donor_vdc_summary$PlannedCash_CFPA/donor_vdc_summary$cash_sum
+donor_vdc_summary$private_cash_multiplier = donor_vdc_summary$PlannedCash_Private/donor_vdc_summary$cash_sum
+
+donor_vdc_summary = merge(donor_vdc_summary, distribution_summary, by = "distribution_information.vdc_name", all.x = TRUE )
+
+#transform(donor_vdc_summary, donor_vdc_summary$DistributedCash = as.numeric(donor_vdc_summary$DistributedCash), donor_vdc_summary$DistributedNFI = as.numeric(donor_vdc_summary$DistributedNFI))
+
+donor_vdc_summary$DistributedNFI = as.numeric(donor_vdc_summary$DistributedNFI)
+donor_vdc_summary$DistributedCash = as.numeric(donor_vdc_summary$DistributedCash)
+
+donor_vdc_summary$difd_cash = donor_vdc_summary$dfid_cash_multiplier * donor_vdc_summary$DistributedCash
+donor_vdc_summary$ofda_cash = donor_vdc_summary$ofda_cash_multiplier * donor_vdc_summary$DistributedCash
+donor_vdc_summary$cfpa_cash = donor_vdc_summary$cfpa_cash_multiplier * donor_vdc_summary$DistributedCash
+donor_vdc_summary$private_cash = donor_vdc_summary$private_cash_multiplier * donor_vdc_summary$DistributedCash
+
+donor_vdc_summary$difd_nfi = donor_vdc_summary$dfid_nfi_multiplier * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$ofda_nfi = donor_vdc_summary$ofda_nfi_multiplier * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$cfpa_nfi = donor_vdc_summary$cfpa_nfi_multiplier * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$private_nfi = donor_vdc_summary$private_nfi_multiplier * donor_vdc_summary$DistributedNFI
+
+donor_table_details = c("Cash Allocated","Cash Distributed","NFI Allocated", "NFI Distributed","Total NFI Planned", "Total Cash Planned")
+
+donor_table_cfpa = c(sum(donor_vdc_summary$PlannedCash_CFPA,na.rm = T),sum(donor_vdc_summary$cfpa_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_CFPA, na.rm = T)+1334,sum(donor_vdc_summary$cfpa_nfi, na.rm = T)+1334,1900,0)
+
+donor_table_dfid = c(sum(donor_vdc_summary$PlannedCash_DFID,na.rm = T)+1512,sum(donor_vdc_summary$difd_cash, na.rm = T)+1512,sum(donor_vdc_summary$PlannedNFI_DFID, na.rm = T)+1887,sum(donor_vdc_summary$difd_nfi, na.rm = T)+1887,3000,3000)
+
+donor_table_ofda = c(sum(donor_vdc_summary$PlannedCash_OFDA,na.rm = T),sum(donor_vdc_summary$ofda_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_OFDA, na.rm = T),sum(donor_vdc_summary$ofda_nfi, na.rm = T),3500,3500)
+
+donor_table_private = c(sum(donor_vdc_summary$PlannedCash_Private,na.rm = T)+1308,sum(donor_vdc_summary$private_cash, na.rm = T)+1308,sum(donor_vdc_summary$PlannedNFI_Private, na.rm = T)+1000,sum(donor_vdc_summary$private_nfi, na.rm = T)+1000,15000,17000)
+
+donor_table = data.frame(donor_table_details,donor_table_cfpa,donor_table_dfid, donor_table_ofda, donor_table_private)
+
+donor_table[,-1] <-round(donor_table[,-1],0)
+
+donor_table$total = donor_table$donor_table_cfpa + donor_table$donor_table_dfid + donor_table$donor_table_ofda + donor_table$donor_table_private
+
+#donor_vdc_summary = merge(donor_vdc_summary, previous_distributions, by.x = "distribution_information.vdc_name", by.y = "VDC", all = TRUE)
+write.csv(donor_table, file = "donor_table.csv", sep = ",", col.names = TRUE)
+
+donor_table[,2:6] = apply(donor_table[,2:6], 2, function(x) prettyNum(x,big.interval = 3L , big.mark=','))
+
+```
+
+</div>
+
+<div id="donor_div" class="container">
+<div class="row">
+<div class="six columns"><h3>Donor Summary</h3></div>
+<div class="six columns"><a id="show_chart" href="#chart_class" class="button button-primary" ng-click="show()">{{btn_name}}</a></div>
+</div>
+
+
+
+
+```{r, echo=FALSE, message=FALSE}
+knitr::kable(donor_table, col.names = c ("","CFPA","DFID","OFDA","Private Funds","Total"))
+```
+
+
+
+
+
+<div style="width:35%">
+<div ng-show="tab" class="container">
+
+<div id="chart_class" class="dash-charts">
+
+<div class="chart-title"><span>Overall Progress in all 4 Districts</span></div>
+<a class="nfi-chart"><span class="active">NFI Distribution</span></a><a class="cash-chart"><span>Cash Distribution</span></a>
+<div class="chart-1"></div>
+<div class="barchart-legend"></div>
+
+</div>
+
+</div>
+</div>
+
+
+</div>
+
+
+Report Generated on `r date()`. 
+
+</div>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="Chart.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="newAggBarChart.js"></script>
+<script type="text/javascript" src="chartist.min.js"></script>
+</body>
+</html>

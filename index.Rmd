@@ -21,6 +21,7 @@ VDC_List = read.csv("vdc_code_list.csv")
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(dplyr)
+library(jsonlite)
 
 donors_NFI = filter(donors, distribution_information.kits_or_cash == 1)
 
@@ -77,9 +78,29 @@ distribution_summary = rbind(distribution_summary, c ("Total","","",sum(distribu
 
 distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) prettyNum(x,big.interval = 3L , big.mark=','))
 
+write(toJSON(distribution_summary, preety = T),file = "distribution_summary.json")
+
 ```
 
+```{r, echo=FALSE, message=FALSE}
 
+distributions_summary_NFI_detailed = distributions_NFI %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(DistributedNFI = sum(review.total_distribution),Ward1= sum(II.II1.beneficiary_received1, na.rm = T),Ward2 = sum(II.II2.beneficiary_received2, na.rm = T),Ward3= sum(II.II3.beneficiary_received3, na.rm = T),Ward4= sum(II.II4.beneficiary_received4, na.rm = T),Ward5= sum(II.II5.beneficiary_received5, na.rm = T),Ward6= sum(II.II6.beneficiary_received6, na.rm = T),Ward7= sum(II.II7.beneficiary_received7, na.rm = T),Ward8= sum(II.II8.beneficiary_received8, na.rm = T),Ward9= sum(II.II9.beneficiary_received9, na.rm = T))%>%
+  arrange(distribution_information.vdc_name)
+
+distributions_summary_cash_detailed = distributions_cash %>% 
+  group_by(distribution_information.vdc_name)%>%
+  summarize(DistributedCash = sum(review.total_distribution),Ward1= sum(II.II1.beneficiary_received1, na.rm = T),Ward2 = sum(II.II2.beneficiary_received2, na.rm = T),Ward3= sum(II.II3.beneficiary_received3, na.rm = T),Ward4= sum(II.II4.beneficiary_received4, na.rm = T),Ward5= sum(II.II5.beneficiary_received5, na.rm = T),Ward6= sum(II.II6.beneficiary_received6, na.rm = T),Ward7= sum(II.II7.beneficiary_received7, na.rm = T),Ward8= sum(II.II8.beneficiary_received8, na.rm = T),Ward9= sum(II.II9.beneficiary_received9, na.rm = T))%>%
+  arrange(distribution_information.vdc_name)
+
+distribution_summary_detailed = merge(distributions_summary_NFI_detailed, distributions_summary_cash_detailed, by.x = "distribution_information.vdc_name", by.y = "distribution_information.vdc_name", all = TRUE)
+
+distribution_summary_detailed [is.na(distribution_summary_detailed)] = 0
+
+write(toJSON(distribution_summary, preety = T),file = "distribution_summary_detailed.json")
+
+```
 
 
 
@@ -115,7 +136,7 @@ distribution_summary[,4:7] = apply(distribution_summary[,4:7], 2, function(x) pr
 
 ###Distribution Summary
 ```{r, echo=FALSE, message=FALSE}
-knitr::kable(distribution_summary, col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
+knitr::kable(distribution_summary, 'html', table.attr='class=``',col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
 ```
 
 **Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/65043), from `r nrow(distributions)` records.
@@ -215,7 +236,7 @@ donor_table[,2:6] = apply(donor_table[,2:6], 2, function(x) prettyNum(x,big.inte
 <div id="donor_div" class="container">
 <div class="row">
 <div class="six columns"><h3>Donor Summary</h3></div>
-<div class="six columns"><a id="show_chart" href="#chart_class" class="button button-primary" ng-click="show()">{{btn_name}}</a></div>
+<div class="six columns"><a id="show_chart" class="button button-primary" ng-click="show(true)">View Donors Chart</a></div>
 </div>
 
 
@@ -256,6 +277,7 @@ Report Generated on `r date()`.
 <script type="text/javascript" src="angular.min.js"></script>
 <script type="text/javascript" src="Chart.min.js"></script>
 <script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="aggBarChart.js"></script>
 <script type="text/javascript" src="newAggBarChart.js"></script>
 <script type="text/javascript" src="chartist.min.js"></script>
 </body>
