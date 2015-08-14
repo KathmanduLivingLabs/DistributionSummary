@@ -98,7 +98,7 @@ distribution_summary_detailed = merge(distributions_summary_NFI_detailed, distri
 
 distribution_summary_detailed [is.na(distribution_summary_detailed)] = 0
 
-write(toJSON(distribution_summary, preety = T),file = "distribution_summary_detailed.json")
+write(toJSON(distribution_summary_detailed, preety = T),file = "distribution_summary_detailed.json")
 
 ```
 
