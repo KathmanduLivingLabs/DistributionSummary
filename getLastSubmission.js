@@ -1,6 +1,8 @@
 var fs = require('fs');
 
-var formDetails = fs.readFileSync('formDetails.json', 'utf8');
+var fileName = process.argv[2];
+
+var formDetails = fs.readFileSync(fileName, 'utf8');
 
 formDetails = JSON.parse(formDetails);
 

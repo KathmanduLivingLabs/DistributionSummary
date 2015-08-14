@@ -2,3 +2,148 @@ thead {
     border-bottom: 3px solid #123456;
   }
   
+.dash-charts{
+	width: 680px;
+	height: 384px;
+	padding: 10px 100px 50px 0px;
+	background-color: rgba(225,225,225,0.94);
+	outline: #cccccc thin solid;
+	position: relative;
+	font-size: 0.76em;
+	margin-bottom: 30px;
+}
+
+.dash-charts .chart-title{
+	text-align: center;
+	font-weight: 500;
+}
+
+.chart-1{
+	width: 540px;
+	height: 320px;
+}
+.cash-chart{
+	position: absolute;
+}
+
+.dash-charts svg{
+	padding: 0px 20px;
+}
+
+.dash-charts .close-button{
+	position: absolute;
+	right: 4px;
+	top: 4px;
+}
+
+.charts-icon{
+	width: 20px;
+	height: 20px;
+}
+
+.view-charts{
+	position: absolute;
+	margin-top: 1%;
+	right: 17%;
+	z-index: 19;
+}
+
+a.nfi-chart, a.cash-chart{
+	width: 50%;
+	padding: 0% 26% 0% 14%;
+	cursor: default;
+}
+
+a.nfi-chart span, a.cash-chart span{
+	padding: 2px 8px;
+	background-color: rgba(255,255,255,0.4);
+	font-weight: 100;
+	color: #666666;
+	cursor: pointer;
+}
+
+a.nfi-chart span:hover, a.cash-chart span:hover{
+	text-decoration: underline;
+	background-color: rgba(255,255,255,0.8);
+	color: #000000;
+}
+
+a.nfi-chart span.active, a.cash-chart span.active{
+	font-weight: 500;
+	background-color: rgba(255,255,255,0.8);
+	color: #000000;
+}
+
+
+.ct-series-b line{
+	stroke: #75dfff !important;
+}
+
+.ct-series-a line{
+	stroke: #33C3F0 !important;
+}
+
+
+.view-charts{
+	padding: 6px;
+	outline: #cccccc thin solid;
+	background-color: rgba(225,225,225,0.8);
+}
+
+.view-charts:hover{
+	opacity: 0.8;
+}
+
+.charts-icon{
+	background-image: url("../img/chart.png");
+	background-size: 40px;
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	opacity: 0.4;
+}
+
+
+
+.barchart-legend{
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	background-image: url("../img/barchart-legend.png");
+	background-size: 100px;
+	background-repeat: no-repeat;
+	float: right;
+	margin-top: -280px;
+	margin-right: -40px;
+}
+
+
+
+.new-webkit .ct-labels [x="10"] .ct-label{
+	margin-left: -20px;
+	padding: 0px 4px;
+}
+
+.new-webkit svg.ct-chart-bar.ct-horizontal-bars{
+	overflow: visible;
+}
+
+.new-webkit .dash-charts{
+	padding-left: 10px;
+}
+
+
+
+.disclaimer{
+	margin-top: -10px;
+	margin-left: 10px;
+	font-size: 9px;
+	font-weight: 100;
+	z-index: 2000;
+	position: absolute;
+}
+
+.new-webkit .disclaimer{
+	margin-top: -16px;
+}
+
