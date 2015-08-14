@@ -215,7 +215,7 @@ donor_table[,2:6] = apply(donor_table[,2:6], 2, function(x) prettyNum(x,big.inte
 <div id="donor_div" class="container">
 <div class="row">
 <div class="six columns"><h3>Donor Summary</h3></div>
-<div class="six columns"><a id="show_chart" href="#chart_class" class="button button-primary" ng-click="show(true)">View Donors Chart</a></div>
+<div class="six columns"><a id="show_chart" href="#chart_class" class="button button-primary" ng-click="show()">{{btn_name}}</a></div>
 </div>
 
 
