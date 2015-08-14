@@ -256,7 +256,6 @@ Report Generated on `r date()`.
 <script type="text/javascript" src="angular.min.js"></script>
 <script type="text/javascript" src="Chart.min.js"></script>
 <script type="text/javascript" src="main.js"></script>
-<script type="text/javascript" src="aggBarChart.js"></script>
 <script type="text/javascript" src="newAggBarChart.js"></script>
 <script type="text/javascript" src="chartist.min.js"></script>
 </body>
