@@ -156,7 +156,7 @@ a.nfi-chart span.active, a.cash-chart span.active{
     top: 0;
     left: 0;
     padding: 2px;
-    max-height: 267px;
+    max-height: 300px;
     margin-top: 13%;
     margin-left: 6%;
     opacity: 0.8
@@ -186,4 +186,12 @@ div.pop_up_div table {
 
 .pop_up_div td {
 	text-align: center;
+}
+
+.popup-header {
+  border-bottom: 2px solid #33C3F0;
+	padding: 0px 10px;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #33C3F0;
 }

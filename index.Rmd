@@ -296,12 +296,12 @@ Report Generated on `r date()`.
 
 </div>
 
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="angular.min.js"></script>
-<script type="text/javascript" src="chartist.min.js"></script>
-<script type="text/javascript" src="distributionSummary.js"></script>
-<script type="text/javascript" src="main.js"></script>
-<script type="text/javascript" src="newAggBarChart.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/chartist.min.js"></script>
+<script type="text/javascript" src="js/distributionSummary.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/newAggBarChart.js"></script>
 
 </body>
 </html>

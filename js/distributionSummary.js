@@ -39,7 +39,8 @@ $(document).ready(function() {
             	var text  = donor_ward.filter(function(vdc) {
             		return vdc["distribution_information.vdc_name"] === _this.id;
             	});
-            	var popUpHtml = '<table><thead><th>Ward Number </th><th>NFI Distributed</th><th>Cash Distributed</th></thead><tbody>';
+							var popUpHtml = '<div class="popup-header">' + this.id + '</div>';
+            	popUpHtml += '<table><thead><th>Ward Number </th><th>NFI Distributed</th><th>Cash Distributed</th></thead><tbody>';
             	var keys = [];
             	try {
             	keys = Object.keys(text[0]);
