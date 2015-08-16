@@ -134,10 +134,33 @@ write(toJSON(distribution_summary_detailed, preety = T),file = "distribution_sum
 <div>
 
 
-###Distribution Summary
-```{r, echo=FALSE, message=FALSE}
-knitr::kable(distribution_summary, 'html', table.attr='class=``',col.names = c ("District","VDC","Donor","NFRI Allocated","NFRI Distributed","Cash Allocated","Cash Distributed"))
-```
+
+
+
+<div class="container">
+<table id="distribution_summary_table">
+<thead> 
+<tr>
+<th>District</th>
+<th>VDC</th>
+<th>Donor</th>
+<th>NFRI Allocated</th>
+<th>NFRI Distributed</th>
+<th>Cash Allocated</th>
+<th>Cash Distributed</th>
+</tr>
+</thead>
+</table>
+<div>
+<div class="pop_up_div"></div>
+<a class="close-button">x</a>
+</div>
+</div>
+
+
+<div></div>
+
+
 
 **Distributed** column is drawn from the [Distribution Reporting Form](https://beta.ona.io/mcnepal/4384/65043), from `r nrow(distributions)` records.
 **Allocated** column is drawn from the [Distribution Donor Form](https://beta.ona.io/mcnepal/4384/65052), from `r nrow(donors)` records.
@@ -275,10 +298,10 @@ Report Generated on `r date()`.
 
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="angular.min.js"></script>
-<script type="text/javascript" src="Chart.min.js"></script>
-<script type="text/javascript" src="main.js"></script>
-<script type="text/javascript" src="aggBarChart.js"></script>
-<script type="text/javascript" src="newAggBarChart.js"></script>
 <script type="text/javascript" src="chartist.min.js"></script>
+<script type="text/javascript" src="distributionSummary.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="newAggBarChart.js"></script>
+
 </body>
 </html>

@@ -147,3 +147,43 @@ a.nfi-chart span.active, a.cash-chart span.active{
 	margin-top: -16px;
 }
 
+.pop_up_div {
+
+    position: fixed;
+    background-color: white;
+    z-index: 1;
+    border: 2px solid #CAECF7;
+    top: 0;
+    left: 0;
+    padding: 2px;
+    max-height: 267px;
+    margin-top: 13%;
+    margin-left: 6%;
+    opacity: 0.8
+}
+
+div.pop_up_div table {
+	line-height: 1px;
+}
+
+.tblrow:hover {
+	background: #CAECF7;
+	cursor: pointer;
+}
+
+.close-button {
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    outline: #CAECF7 thin solid;
+    padding: 0px 7px;
+    margin-top: 11%;
+    margin-left: 35.5%;
+    background: white;
+}
+
+.pop_up_div td {
+	text-align: center;
+}
