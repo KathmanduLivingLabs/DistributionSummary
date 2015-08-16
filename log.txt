@@ -16034,3 +16034,180 @@ Type 'q()' to quit R.
 
 
 
+
+
+
+=========================
+
+
+
+[aakashBranch 9830bcf] Compiled on: 2015-08-16 08:24:36
+ 18 files changed, 79 insertions(+), 135 deletions(-)
+ delete mode 100644 Chart.min.js
+ delete mode 100644 aggBarChart.js
+ delete mode 100644 css/.main.css.swp
+ rewrite formDetails.json (100%)
+ rewrite formDetails_donor.json (100%)
+ rename angular.min.js => js/angular.min.js (100%)
+ rename chartist.min.js => js/chartist.min.js (100%)
+ rename distributionSummary.js => js/distributionSummary.js (92%)
+ rename getLastSubmission.js => js/getLastSubmission.js (100%)
+ rename getOldDistDon.js => js/getOldDistDon.js (100%)
+ rename jquery.js => js/jquery.js (100%)
+ rename main.js => js/main.js (100%)
+ rename newAggBarChart.js => js/newAggBarChart.js (100%)
+
+
+
+=========================
+
+
+
+
+
+=============================================================
+
+Sun Aug 16 08:25:39 NPT 2015
+=================================================================
+Entered in to DistributionSummary
+Old Dist = 2015-08-12T16:23:39.850Z
+Old Donor = 2015-08-12T05:51:00.583Z
+new Dist report = 2015-08-14T12:12:59.291Z
+new Dist Donor = 2015-08-14T08:38:52.794Z
+
+=========================
+
+Already up-to-date.
+
+=========================
+
+
+
+
+R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> rmarkdown::render('/home/aakash/DistributionSummary/index.Rmd')
+
+
+
+=========================
+
+
+
+
+
+
+=========================
+
+
+
+
+
+
+=========================
+
+
+
+
+
+
+=========================
+
+
+
+
+Moving new to old
+
+
+Done
+
+
+
+=============================================================
+
+Sun Aug 16 08:27:10 NPT 2015
+=================================================================
+Entered in to DistributionSummary
+Old Dist = 2015-08-12T16:23:39.850Z
+Old Donor = 2015-08-12T05:51:00.583Z
+new Dist report = 2015-08-14T12:12:59.291Z
+new Dist Donor = 2015-08-14T08:38:52.794Z
+
+=========================
+
+Already up-to-date.
+
+=========================
+
+
+
+
+R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> rmarkdown::render('/home/aakash/DistributionSummary/index.Rmd')
+
+
+
+=========================
+
+
+
+
+
+
+=========================
+
+
+
+
+
+
+=========================
+
+
+
+
+
+
+=========================
+
+
+
+
+Moving new to old
+
+
+Done
+

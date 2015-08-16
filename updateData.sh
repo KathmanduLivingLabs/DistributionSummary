@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# entering /home/aakash/DistributionSummary
+#entering /home/aakash/DistributionSummary
 cd /home/aakash/DistributionSummary
 echo -e "\n\n=============================================================">>log.txt
 echo -e "\n`date`">>log.txt
@@ -18,14 +18,14 @@ echo "Old Donor = $oldDistDon"
 echo "Old Donor = $oldDistDon">>log.txt
 
 
-curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/66181 >formDetails.json
-curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/65829 >formDetails_donor.json
+#curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/66181 >formDetails.json
+#curl -X GET -u "klltesting:klltesting" https://ona.io/api/v1/forms/65829 >formDetails_donor.json
 
 # get new form Distribution Reporting
-#curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65043 >newFormDetailsDistRep.json
+curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65043 >newFormDetailsDistRep.json
 
 # get new form Distribution Donor
-#curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65052 >newFormDetailsDistDonor.json
+curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65052 >newFormDetailsDistDonor.json
 
 # get new submission of distribution reporting
 newDistRep=`node js/getLastSubmission.js newFormDetailsDistRep.json`
@@ -43,7 +43,7 @@ then
 	echo "Nothing to update">>log.txt
 else
 	log=/home/aakash/DistributionSummary/log.txt
-        projLoc=/home/aakash/DistributionSummary/index.Rmd
+  projLoc=/home/aakash/DistributionSummary/index.Rmd
 
 	echo -e "\n=========================\n">>log.txt
 	git pull origin gh-pages >>log.txt
@@ -60,7 +60,7 @@ else
 	echo -e "\n\n\n=========================\n\n\n">>log.txt
 	
 	echo -e "\nMoving new to old\n">>log.txt
-	#mv newFormDetailsDistRep.json oldFormDetailsDistRep.json
-	#mv newFormDetailsDistDonor.json oldFormDetailsDistDonor.json
+	mv newFormDetailsDistRep.json oldFormDetailsDistRep.json
+	mv newFormDetailsDistDonor.json oldFormDetailsDistDonor.json
 	echo -e "\nDone\n">>log.txt
 fi
