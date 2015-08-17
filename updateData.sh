@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# entering /home/aakash/DistributionSummary
+#entering /home/aakash/DistributionSummary
 cd /home/aakash/DistributionSummary
 echo -e "\n\n=============================================================">>log.txt
 echo -e "\n`date`">>log.txt
@@ -8,12 +8,12 @@ echo "=================================================================" >>log.t
 echo "Entered in to DistributionSummary">>log.txt
 
 # get old submission of distribution reporting
-oldDistRep=`node getLastSubmission.js oldFormDetailsDistRep.json`
+oldDistRep=`node js/getLastSubmission.js oldFormDetailsDistRep.json`
 echo "Old Dist = $oldDistRep"
 echo "Old Dist = $oldDistRep">>log.txt
 
 # get old submission of distribution donor
-oldDistDon=`node getLastSubmission.js oldFormDetailsDistDonor.json`
+oldDistDon=`node js/getLastSubmission.js oldFormDetailsDistDonor.json`
 echo "Old Donor = $oldDistDon"
 echo "Old Donor = $oldDistDon">>log.txt
 
@@ -28,12 +28,12 @@ curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65043 >newFormDe
 curl -X GET -u "mcnepal:mcnepal321" https://ona.io/api/v1/forms/65052 >newFormDetailsDistDonor.json
 
 # get new submission of distribution reporting
-newDistRep=`node getLastSubmission.js newFormDetailsDistRep.json`
+newDistRep=`node js/getLastSubmission.js newFormDetailsDistRep.json`
 echo "new Dist report = $newDistRep"
 echo "new Dist report = $newDistRep">>log.txt
 
 # get new submission of distribution donor
-newDistDon=`node getLastSubmission.js newFormDetailsDistDonor.json`
+newDistDon=`node js/getLastSubmission.js newFormDetailsDistDonor.json`
 echo "new Dist Donor = $newDistDon"
 echo "new Dist Donor = $newDistDon">>log.txt
 
@@ -43,7 +43,7 @@ then
 	echo "Nothing to update">>log.txt
 else
 	log=/home/aakash/DistributionSummary/log.txt
-        projLoc=/home/aakash/DistributionSummary/index.Rmd
+  projLoc=/home/aakash/DistributionSummary/index.Rmd
 
 	echo -e "\n=========================\n">>log.txt
 	git pull origin gh-pages >>log.txt
