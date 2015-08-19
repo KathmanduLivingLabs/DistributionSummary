@@ -153,7 +153,7 @@ write(toJSON(distribution_summary_detailed, preety = T),file = "distribution_sum
 </table>
 <div>
 <div class="pop_up_div"></div>
-<a class="close-button">x</a>
+<span class="close-button">x</span>
 </div>
 </div>
 
