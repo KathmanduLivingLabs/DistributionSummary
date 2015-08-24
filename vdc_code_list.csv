@@ -1,9 +1,11 @@
 VCODE,VDC,District,ToBeDistributed,Donor
 22013,Chyama,Dolakha,886,OFDA
 22020,Hawa,Dolakha,600,Private
-00,Melung,Dolakha,1500,OFDA
+000,Melung,Dolakha,1500,OFDA
 22037,Mali,Dolakha,,
 22038,Malu,Dolakha,,
+001,Dandakharka,Dolakha,1286,
+002,Bhedapu,Dolakha,1350,Private
 22045,Sahare,Dolakha,820,Private
 24002,Baldthali,Kavre,846,Private
 24013,Chalalganeshsthan,Kavre,1013,Private
@@ -27,7 +29,7 @@ VCODE,VDC,District,ToBeDistributed,Donor
 28014,Chauthe,Nuwakot,,
 28015,Chhap,Nuwakot,,
 28016,Dangsing,Nuwakot,,
-28017,Deurali,Nuwakot,,
+28017,Deurali,Nuwakot,1265,
 28018,Duipipal,Nuwakot,,
 28019,Fikuri,Nuwakot,,
 28020,Ganeshthan,Nuwakot,1030,Private
@@ -61,7 +63,7 @@ VCODE,VDC,District,ToBeDistributed,Donor
 28048,Samari,Nuwakot,,
 28049,Samundradevi,Nuwakot,,
 28050,Samundratar,Nuwakot,,
-28051,Shikharbesi,Nuwakot,,
+28051,Shikharbesi,Nuwakot,930,
 28052,Sikre,Nuwakot,,
 28053,Sundaradevi,Nuwakot,,
 28054,Sunkhani,Nuwakot,650,CFPA/Private
