@@ -56,8 +56,11 @@ $(document).ready(function() {
             		popUpHtml += '<tr><td>' + keys[index][4] + '</td><td>' + text[0][keys[index]] + '</td><td>' + cashDistributed + '</td></tr>';
             	}
             	$('.pop_up_div').html(popUpHtml);
-                $('.pop_up_div').show();
-                $('.close-button').show();
+              $('.pop_up_div').show();
+							var translateCloseBtn_X = $('.pop_up_div').outerWidth() - 10;
+							console.log(translateCloseBtn_X);
+							$('.close-button').css('transform', 'translate(' + translateCloseBtn_X + 'px, -10px)');
+              $('.close-button').show();
             });
 
             $('.close-button').click(function() {
