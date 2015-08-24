@@ -42,8 +42,9 @@ then
 	echo "Nothing to update"
 	echo "Nothing to update">>log.txt
 else
+	echo -e "\nPush Started on `date`\n" >>pushlog.txt
 	log=/home/aakash/DistributionSummary/log.txt
-  projLoc=/home/aakash/DistributionSummary/index.Rmd
+  	projLoc=/home/aakash/DistributionSummary/index.Rmd
 
 	echo -e "\n=========================\n">>log.txt
 	git pull origin gh-pages >>log.txt
