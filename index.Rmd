@@ -166,80 +166,97 @@ write(toJSON(distribution_summary_detailed, preety = T),file = "distribution_sum
 **Allocated** column is drawn from the [Distribution Donor Form](https://beta.ona.io/mcnepal/4384/65052), from `r nrow(donors)` records.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-distributions_dfid_NFI = filter(donors, donors$distribution_information.distribution_donor == "dfid") %>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedNFI_DFID = sum(distribution_information.number_of_kits, na.rm = TRUE))
 
-distributions_dfid_cash = filter(donors, donors$distribution_information.distribution_donor == "dfid") %>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedCash_DFID = sum(distribution_information.cash_recipients, na.rm = TRUE))
 
-distributions_cfpa_NFI = filter(donors, donors$distribution_information.distribution_donor == "cfpa")%>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedNFI_CFPA = sum(distribution_information.number_of_kits, na.rm = TRUE))
 
-distributions_cfpa_cash = filter(donors, donors$distribution_information.distribution_donor == "cfpa") %>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedCash_CFPA = sum(distribution_information.cash_recipients, na.rm = TRUE))
 
-distributions_ofda_NFI = filter(donors, donors$distribution_information.distribution_donor == "ofda")%>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedNFI_OFDA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+# distributions_dfid_NFI = filter(donors_NFI, donors_NFI$distribution_information.distribution_donor == "dfid") %>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedNFI_DFID = sum(distribution_information.number_of_kits, na.rm = TRUE))
+# 
+# distributions_dfid_cash = filter(donors_cash, donors_cash$distribution_information.distribution_donor == "dfid") %>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedCash_DFID = sum(distribution_information.cash_recipients, na.rm = TRUE))
+# 
+# distributions_cfpa_NFI = filter(donors_NFI, donors_NFI$distribution_information.distribution_donor == "cfpa")%>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedNFI_CFPA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+# 
+# distributions_cfpa_cash = filter(donors_cash, donors_cash$distribution_information.distribution_donor == "cfpa") %>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedCash_CFPA = sum(distribution_information.cash_recipients, na.rm = TRUE))
+# 
+# distributions_ofda_NFI = filter(donors_NFI, donors_NFI$distribution_information.distribution_donor == "ofda")%>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedNFI_OFDA = sum(distribution_information.number_of_kits, na.rm = TRUE))
+# 
+# distributions_ofda_cash = filter(donors_cash, donors_cash$distribution_information.distribution_donor == "ofda") %>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedCash_OFDA = sum(distribution_information.cash_recipients, na.rm = TRUE))
+# 
+# distributions_private_NFI = filter(donors_NFI, donors_NFI$distribution_information.distribution_donor == "private")%>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedNFI_Private = sum(distribution_information.number_of_kits, na.rm = TRUE))
+# 
+# distributions_private_cash = filter(donors_cash, donors_cash$distribution_information.distribution_donor == "private") %>%
+#   group_by(distribution_information.vdc_name) %>% 
+#   summarize(PlannedCash_Private = sum(distribution_information.cash_recipients, na.rm = TRUE))
+# 
+# donor_vdc_summary = Reduce(function(...) merge(...,by="distribution_information.vdc_name" ,all=T), list(distributions_private_cash, distributions_private_NFI, distributions_ofda_cash, distributions_ofda_NFI, distributions_cfpa_cash,distributions_cfpa_NFI,distributions_dfid_cash, distributions_dfid_NFI))
+# 
+# donor_vdc_summary$NFI_sum = rowSums(donor_vdc_summary[, c(3,5,7,9)], na.rm = TRUE)
+# 
+# donor_vdc_summary$cash_sum = rowSums(donor_vdc_summary[, c(2,4,6,8)], na.rm = TRUE)
+# 
+# donor_vdc_summary$dfid_nfi_multiplier = donor_vdc_summary$PlannedNFI_DFID/donor_vdc_summary$NFI_sum
+# donor_vdc_summary$ofda_nfi_multiplier = donor_vdc_summary$PlannedNFI_OFDA/donor_vdc_summary$NFI_sum
+# donor_vdc_summary$cfpa_nfi_multiplier = donor_vdc_summary$PlannedNFI_CFPA/donor_vdc_summary$NFI_sum
+# donor_vdc_summary$private_nfi_multiplier = donor_vdc_summary$PlannedNFI_Private/donor_vdc_summary$NFI_sum
+# 
+# donor_vdc_summary$dfid_cash_multiplier = donor_vdc_summary$PlannedCash_DFID/donor_vdc_summary$cash_sum
+# donor_vdc_summary$ofda_cash_multiplier = donor_vdc_summary$PlannedCash_OFDA/donor_vdc_summary$cash_sum
+# donor_vdc_summary$cfpa_cash_multiplier = donor_vdc_summary$PlannedCash_CFPA/donor_vdc_summary$cash_sum
+# donor_vdc_summary$private_cash_multiplier = donor_vdc_summary$PlannedCash_Private/donor_vdc_summary$cash_sum
+# 
+donor_vdc_summary = merge(VDC_List, distribution_summary, by.x = "VDC" ,by.y = "distribution_information.vdc_name" )
+# 
+# #transform(donor_vdc_summary, donor_vdc_summary$DistributedCash = as.numeric(donor_vdc_summary$DistributedCash), donor_vdc_summary$DistributedNFI = as.numeric(donor_vdc_summary$DistributedNFI))
+# 
+donor_vdc_summary$DistributedNFI = as.numeric(gsub(",","",donor_vdc_summary$DistributedNFI))
+donor_vdc_summary$DistributedCash = as.numeric(gsub(",","",donor_vdc_summary$DistributedCash))
+donor_vdc_summary$PlannedNFI = as.numeric(gsub(",","",donor_vdc_summary$PlannedNFI))
+donor_vdc_summary$PlannedCash = as.numeric(gsub(",","",donor_vdc_summary$PlannedCash))
 
-distributions_ofda_cash = filter(donors, donors$distribution_information.distribution_donor == "ofda") %>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedCash_OFDA = sum(distribution_information.cash_recipients, na.rm = TRUE))
 
-distributions_private_NFI = filter(donors, donors$distribution_information.distribution_donor == "private")%>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedNFI_Private = sum(distribution_information.number_of_kits, na.rm = TRUE))
+donor_vdc_summary$difd_cash = donor_vdc_summary$dfid_cash_multi * donor_vdc_summary$DistributedCash
+donor_vdc_summary$ofda_cash = donor_vdc_summary$ofda_cash_multi * donor_vdc_summary$DistributedCash
+donor_vdc_summary$cfpa_cash = donor_vdc_summary$cfpa_cash_multi * donor_vdc_summary$DistributedCash
+donor_vdc_summary$private_cash = donor_vdc_summary$private_cash_multi * donor_vdc_summary$DistributedCash
 
-distributions_private_cash = filter(donors, donors$distribution_information.distribution_donor == "private") %>%
-  group_by(distribution_information.vdc_name) %>% 
-  summarize(PlannedCash_Private = sum(distribution_information.cash_recipients, na.rm = TRUE))
+donor_vdc_summary$difd_nfi = donor_vdc_summary$dfid_kit_multi * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$ofda_nfi = donor_vdc_summary$ofda_kit_multi * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$cfpa_nfi = donor_vdc_summary$cfpa_kit_multi * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$private_nfi = donor_vdc_summary$private_kit_multi * donor_vdc_summary$DistributedNFI
 
-donor_vdc_summary = Reduce(function(...) merge(...,by="distribution_information.vdc_name" ,all=T), list(distributions_private_cash, distributions_private_NFI, distributions_ofda_cash, distributions_ofda_NFI, distributions_cfpa_cash,distributions_cfpa_NFI,distributions_dfid_cash, distributions_dfid_NFI))
+donor_vdc_summary$PlannedCash_DFID = donor_vdc_summary$dfid_cash_multi * donor_vdc_summary$PlannedCash
+donor_vdc_summary$PlannedCash_OFDA = donor_vdc_summary$ofda_cash_multi * donor_vdc_summary$PlannedCash
+donor_vdc_summary$PlannedCash_CFPA = donor_vdc_summary$cfpa_cash_multi * donor_vdc_summary$PlannedCash
+donor_vdc_summary$PlannedCash_Private = donor_vdc_summary$private_cash_multi * donor_vdc_summary$PlannedCash
 
-donor_vdc_summary$NFI_sum = rowSums(donor_vdc_summary[, c(3,5,7,9)], na.rm = TRUE)
-
-donor_vdc_summary$cash_sum = rowSums(donor_vdc_summary[, c(2,4,6,8)], na.rm = TRUE)
-
-donor_vdc_summary$dfid_nfi_multiplier = donor_vdc_summary$PlannedNFI_DFID/donor_vdc_summary$NFI_sum
-donor_vdc_summary$ofda_nfi_multiplier = donor_vdc_summary$PlannedNFI_OFDA/donor_vdc_summary$NFI_sum
-donor_vdc_summary$cfpa_nfi_multiplier = donor_vdc_summary$PlannedNFI_CFPA/donor_vdc_summary$NFI_sum
-donor_vdc_summary$private_nfi_multiplier = donor_vdc_summary$PlannedNFI_Private/donor_vdc_summary$NFI_sum
-
-donor_vdc_summary$dfid_cash_multiplier = donor_vdc_summary$PlannedCash_DFID/donor_vdc_summary$cash_sum
-donor_vdc_summary$ofda_cash_multiplier = donor_vdc_summary$PlannedCash_OFDA/donor_vdc_summary$cash_sum
-donor_vdc_summary$cfpa_cash_multiplier = donor_vdc_summary$PlannedCash_CFPA/donor_vdc_summary$cash_sum
-donor_vdc_summary$private_cash_multiplier = donor_vdc_summary$PlannedCash_Private/donor_vdc_summary$cash_sum
-
-donor_vdc_summary = merge(donor_vdc_summary, distribution_summary, by = "distribution_information.vdc_name", all.x = TRUE )
-
-#transform(donor_vdc_summary, donor_vdc_summary$DistributedCash = as.numeric(donor_vdc_summary$DistributedCash), donor_vdc_summary$DistributedNFI = as.numeric(donor_vdc_summary$DistributedNFI))
-
-donor_vdc_summary$DistributedNFI = as.numeric(donor_vdc_summary$DistributedNFI)
-donor_vdc_summary$DistributedCash = as.numeric(donor_vdc_summary$DistributedCash)
-
-donor_vdc_summary$difd_cash = donor_vdc_summary$dfid_cash_multiplier * donor_vdc_summary$DistributedCash
-donor_vdc_summary$ofda_cash = donor_vdc_summary$ofda_cash_multiplier * donor_vdc_summary$DistributedCash
-donor_vdc_summary$cfpa_cash = donor_vdc_summary$cfpa_cash_multiplier * donor_vdc_summary$DistributedCash
-donor_vdc_summary$private_cash = donor_vdc_summary$private_cash_multiplier * donor_vdc_summary$DistributedCash
-
-donor_vdc_summary$difd_nfi = donor_vdc_summary$dfid_nfi_multiplier * donor_vdc_summary$DistributedNFI
-donor_vdc_summary$ofda_nfi = donor_vdc_summary$ofda_nfi_multiplier * donor_vdc_summary$DistributedNFI
-donor_vdc_summary$cfpa_nfi = donor_vdc_summary$cfpa_nfi_multiplier * donor_vdc_summary$DistributedNFI
-donor_vdc_summary$private_nfi = donor_vdc_summary$private_nfi_multiplier * donor_vdc_summary$DistributedNFI
+donor_vdc_summary$PlannedNFI_DFID = donor_vdc_summary$dfid_kit_multi * donor_vdc_summary$PlannedNFI
+donor_vdc_summary$PlannedNFI_OFDA = donor_vdc_summary$ofda_kit_multi * donor_vdc_summary$PlannedNFI
+donor_vdc_summary$PlannedNFI_CFPA = donor_vdc_summary$cfpa_kit_multi * donor_vdc_summary$PlannedNFI
+donor_vdc_summary$PlannedNFI_Private = donor_vdc_summary$private_kit_multi * donor_vdc_summary$PlannedNFI
 
 donor_table_details = c("Cash Allocated","Cash Distributed","NFI Allocated", "NFI Distributed","Total NFI Planned", "Total Cash Planned")
 
-donor_table_cfpa = c(sum(donor_vdc_summary$PlannedCash_CFPA,na.rm = T),sum(donor_vdc_summary$cfpa_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_CFPA, na.rm = T)+1334,sum(donor_vdc_summary$cfpa_nfi, na.rm = T)+1334,1900,0)
+donor_table_cfpa = c(sum(donor_vdc_summary$PlannedCash_CFPA,na.rm = T),sum(donor_vdc_summary$cfpa_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_CFPA, na.rm = T),sum(donor_vdc_summary$cfpa_nfi, na.rm = T),1900,0)
 
-donor_table_dfid = c(sum(donor_vdc_summary$PlannedCash_DFID,na.rm = T)+1512,sum(donor_vdc_summary$difd_cash, na.rm = T)+1512,sum(donor_vdc_summary$PlannedNFI_DFID, na.rm = T)+1887,sum(donor_vdc_summary$difd_nfi, na.rm = T)+1887,3000,3000)
+donor_table_dfid = c(sum(donor_vdc_summary$PlannedCash_DFID,na.rm = T),sum(donor_vdc_summary$difd_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_DFID, na.rm = T),sum(donor_vdc_summary$difd_nfi, na.rm = T),3000,3000)
 
 donor_table_ofda = c(sum(donor_vdc_summary$PlannedCash_OFDA,na.rm = T),sum(donor_vdc_summary$ofda_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_OFDA, na.rm = T),sum(donor_vdc_summary$ofda_nfi, na.rm = T),3500,3500)
 
-donor_table_private = c(sum(donor_vdc_summary$PlannedCash_Private,na.rm = T)+1308,sum(donor_vdc_summary$private_cash, na.rm = T)+1308,sum(donor_vdc_summary$PlannedNFI_Private, na.rm = T)+1000,sum(donor_vdc_summary$private_nfi, na.rm = T)+1000,15000,17000)
+donor_table_private = c(sum(donor_vdc_summary$PlannedCash_Private,na.rm = T),sum(donor_vdc_summary$private_cash, na.rm = T),sum(donor_vdc_summary$PlannedNFI_Private, na.rm = T),sum(donor_vdc_summary$private_nfi, na.rm = T),15000,17000)
 
 donor_table = data.frame(donor_table_details,donor_table_cfpa,donor_table_dfid, donor_table_ofda, donor_table_private)
 

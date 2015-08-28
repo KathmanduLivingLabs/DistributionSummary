@@ -1,9 +1,9 @@
 "","District.y","distribution_information.vdc_name","Donor.y","PlannedNFI","DistributedNFI","PlannedCash","DistributedCash"
-"1","Dolakha","Bhedapu","Private",547,0,0,0
+"1","Dolakha","Bhedapu","Private",547,1247,0,0
 "2","Dolakha","Chyama","OFDA",886,886,886,886
-"3","Dolakha","Hawa","Private",514,514,514,514
+"3","Dolakha","Hawa","Private/CFPA",514,514,514,514
 "4","Dolakha","Melung","OFDA",1430,1150,1150,1150
-"5","Dolakha","Sahare","Private",820,820,821,820
+"5","Dolakha","Sahare","Private/CFPA",820,820,821,820
 "6","Kavre","Baldthali","Private",853,764,0,0
 "7","Kavre","Chalalganeshsthan","Private",1018,999,0,0
 "8","Kavre","Chyamrangbesi","DFID",327,327,326,326
@@ -15,8 +15,8 @@
 "14","Nuwakot","Deurali","Private",1225,1224,1224,0
 "15","Nuwakot","Ganeshthan","Private",1000,1000,1130,1000
 "16","Nuwakot","Sunkhani","CFPA/Private",673,673,673,673
-"17","Sindhupalchok","Dhumthang","DFID/Private/PWJ",1102,1100,1102,1093
+"17","Sindhupalchok","Dhumthang","DFID/Private",1102,1100,1102,1093
 "18","Sindhupalchok","Ghorthali","DFID",573,573,578,578
-"19","Sindhupalchok","Hagam","Private",1162,1156,1162,1156
+"19","Sindhupalchok","Hagam","Private/PWJ",1162,1156,1162,1156
 "20","Sindhupalchok","Maneswor","DFID",922,922,934,934
-"21","Sindhupalchok","Ramche","OFDA/Private",1107,1072,1141,1462
+"21","Sindhupalchok","Ramche","OFDA",1107,1072,1141,1462
