@@ -7,7 +7,7 @@ VCODE,VDC,District,ToBeDistributed,Donor,dfid_kit_multi,dfid_cash_multi,ofda_kit
 22045,Sahare,Dolakha,820,Private/CFPA,0,0,0,0,0,1,1,0
 24002,Baldthali,Kavre,846,Private,0,0,0,0,1,1,0,0
 24013,Chalalganeshsthan,Kavre,1013,Private,0,0,0,0,1,1,0,0
-24016,Chyamrangbesi,Kavre,327,DFID,1,1,0,0,0,0,0,0
+24016,Chyamrangbesi,Kavre,326,DFID,1,1,0,0,0,0,0,0
 24017,Chyasingkharka,Kavre,654,DFID,1,1,0,0,0,0,0,0
 24024,Dhunkharka,Kavre,1500,Private,0,0,0,0,1,1,0,0
 24054,Mahankalchaur,Kavre,850,Private,0,0,0,0,1,1,0,0
@@ -18,8 +18,8 @@ VCODE,VDC,District,ToBeDistributed,Donor,dfid_kit_multi,dfid_cash_multi,ofda_kit
 28051,Shikharbesi,Nuwakot,930,Private,0,0,0,0,1,1,0,0
 28054,Sunkhani,Nuwakot,650,CFPA/Private,0,0,0,0,0.16,1,0.84,0
 23015,Dhumthang,Sindhupalchok,1000,DFID/Private,0.46,0.46,0,0,0.54,0.54,0,0
-23022,Ghorthali,Sindhupalchok,572,DFID,1,1,0,0,0,0,0,0
+23022,Ghorthali,Sindhupalchok,577,DFID,1,1,0,0,0,0,0,0
 23027,Hagam,Sindhupalchok,1162,Private/PWJ,0,0,0,0,1,1,0,0
 23037,Karthali,Sindhupalchok,1000,OFDA/Private,0,0,0.29,0.29,0.71,0.71,0,0
-23045,Maneswor,Sindhupalchok,874,DFID,1,1,0,0,0,0,0,0
+23045,Maneswor,Sindhupalchok,896,DFID,1,1,0,0,0,0,0,0
 23057,Ramche,Sindhupalchok,1200,OFDA,0,0,1,1,0,0,0,0
