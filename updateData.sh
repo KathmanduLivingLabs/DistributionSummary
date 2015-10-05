@@ -37,13 +37,12 @@ newDistDon=`node js/getLastSubmission.js newFormDetailsDistDonor.json`
 echo "new Dist Donor = $newDistDon"
 echo "new Dist Donor = $newDistDon">>log.txt
 
-if [[ "$oldDistRep" == "$newDistRep" && "$oldDistDon" == "$newDistDon" ]]
-then
-	echo "Nothing to update"
-	echo "Nothing to update">>log.txt
-else
+#if [[ "$oldDistRep" == "$newDistRep" && "$oldDistDon" == "$newDistDon" ]]
+#then
+#	echo "Nothing to update"
+#	echo "Nothing to update">>log.txt
+# else
 	
-	echo "rmarkdown::render('index.Rmd')" | R --vanilla
 	echo -e "\nPush Started on `date`\n" >>pushlog.txt
 	log=/home/aakash/DistributionSummary/log.txt
   	projLoc=/home/aakash/DistributionSummary/index.Rmd
@@ -66,4 +65,4 @@ else
 	mv newFormDetailsDistRep.json oldFormDetailsDistRep.json
 	mv newFormDetailsDistDonor.json oldFormDetailsDistDonor.json
 	echo -e "\nDone\n">>log.txt
-fi
+# fi
