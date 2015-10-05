@@ -42,6 +42,8 @@ then
 	echo "Nothing to update"
 	echo "Nothing to update">>log.txt
 else
+	
+	echo "rmarkdown::render('index.Rmd')" | R --vanilla
 	echo -e "\nPush Started on `date`\n" >>pushlog.txt
 	log=/home/aakash/DistributionSummary/log.txt
   	projLoc=/home/aakash/DistributionSummary/index.Rmd
